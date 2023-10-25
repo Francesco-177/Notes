@@ -1,8 +1,10 @@
 package com.example.notes
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
@@ -35,10 +37,12 @@ class MainActivity : AppCompatActivity() {
 
             when (it.itemId) {
                 R.id.nav_new_note -> {
+                    hideKeyboard()
                     val createNoteFragment = CreateNoteFragment() // Create an instance of CreateNoteFragment
                     replaceFragment(createNoteFragment, it.title.toString())
                 }
                 R.id.nav_my_notes -> {
+                    hideKeyboard()
                     val myNotesFragment = MyNotesFragment() // Create an instance of MyNotesFragment
                     replaceFragment(myNotesFragment, it.title.toString())
                 }
@@ -64,4 +68,12 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun hideKeyboard() {
+        if (currentFocus != null) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        }
+    }
+
 }

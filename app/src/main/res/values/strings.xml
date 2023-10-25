@@ -8,6 +8,8 @@
     <string name="save_text">Save</string>
     <string name="title_text">Title</string>
     <string name="note_text">Note</string>
+    <string name="note_details_text">Note Details</string>
+
     <string name="note_text_validation">Please write a note</string>
     <string name="note_title_text_validation">Please write a note title</string>
 
@@ -26,13 +28,10 @@
     </string>
 
 
-
-
     <string name="home_item_text">Home</string>
     <string name="title_item_text">Title</string>
     <string name="my_notes_item_text">My Notes</string>
     <string name="new_note_item_text">New Note</string>
-
 
 
 </resources>

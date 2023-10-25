@@ -2,6 +2,7 @@ package com.example.notes
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 private const val ARG_PARAM1 = "param1"
@@ -20,15 +22,19 @@ class CreateNoteFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-
-
     private val noteInput: EditText?
         get() = view?.findViewById(R.id.note_input)
 
     private val noteTitleInput: EditText?
         get() = view?.findViewById(R.id.note_title_input)
 
+    private val recyclerView: RecyclerView?
+        get() = view?.findViewById(R.id.recyclerView)
 
+    private val saveButton: Button?
+        get() = view?.findViewById(R.id.save_button)
+
+    private var notesList = mutableListOf<Note>()
 
 
 
@@ -52,48 +58,44 @@ class CreateNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        val customAdapter = CustomAdapter()
+        notesList = ArrayList()
 
-        val saveButton = view.findViewById<Button>(R.id.save_button)
+        val adapter = CustomAdapter(notesList)
+        recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView?.adapter = adapter
 
         saveButton?.setOnClickListener {
-
             val note = noteInput?.text?.toString()?.trim() ?: ""
             val noteTitle = noteTitleInput?.text?.toString()?.trim() ?: ""
 
-            if ((note.isEmpty() && noteTitle.isEmpty()) || (note.isEmpty())) {
+            if (note.isEmpty() && noteTitle.isEmpty()) {
                 Toast.makeText(requireContext(), getString(R.string.note_text_validation), Toast.LENGTH_LONG).show()
-            } else if(noteTitle.isEmpty()) {
+            } else if (noteTitle.isEmpty()) {
                 Toast.makeText(requireContext(), getString(R.string.note_title_text_validation), Toast.LENGTH_LONG).show()
-            } else {
+            } else if(note.isNotEmpty() && noteTitle.isNotEmpty()) {
+                // Crea una nueva nota
+                val newNote = Note(noteTitle, note)
+                notesList.add(newNote)
+                adapter.notifyDataSetChanged()
 
 
-                // Agrega la nueva nota con el título capturado
-                customAdapter.addNoteWithTitle(noteTitle)
+                Log.d("NoteDetails", "Title: ${newNote.title}")
+                Log.d("NoteDetails", "Content: ${newNote.content}")
 
-                // Notifica al RecyclerView que se ha insertado un nuevo elemento
-                recyclerView.adapter = customAdapter
 
                 hideKeyboard()
                 clearInputFields()
-
             }
-
-
         }
-
-
-
-
 
 
     }
 
 
-
     private fun clearInputFields() {
         noteInput?.text?.clear()
+        noteTitleInput?.text?.clear()
+
     }
 
 

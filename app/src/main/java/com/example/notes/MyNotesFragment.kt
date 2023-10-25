@@ -5,15 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class MyNotesFragment : Fragment() {
+class MyNotesFragment : Fragment(){
 
     private var param1: String? = null
     private var param2: String? = null
+
+    private val recyclerView: RecyclerView?
+        get() = view?.findViewById(R.id.recyclerView)
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +44,8 @@ class MyNotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
     }
+
 
     companion object {
 
