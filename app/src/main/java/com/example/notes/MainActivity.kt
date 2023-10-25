@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle : ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
 
+    val notesList = mutableListOf<Note>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

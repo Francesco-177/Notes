@@ -13,6 +13,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModel
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -34,7 +36,10 @@ class CreateNoteFragment : Fragment() {
     private val saveButton: Button?
         get() = view?.findViewById(R.id.save_button)
 
-    private var notesList = mutableListOf<Note>()
+    private val notesList: MutableList<Note> by lazy {
+        (requireActivity() as MainActivity).notesList
+    }
+
 
 
 
@@ -58,7 +63,9 @@ class CreateNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        notesList = ArrayList()
+
+
+
 
         val adapter = CustomAdapter(notesList)
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -103,6 +110,7 @@ class CreateNoteFragment : Fragment() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
+
 
     companion object {
 
